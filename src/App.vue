@@ -1,28 +1,35 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
-  </div>
+  <section class="todoapp" v-cloak>
+    <Header @addTodoEvent="addTodoEvent"></Header>
+  </section>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Header from "./components/Header";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  name: "App",
+  data() {
+    return {
+      todoIdx: 1,
+      todos: [],
+      editingTodo: null,
+      visibility: "all"
+    };
+  },
 
+  components: {
+    Header
+  },
+  methods: {
+    addTodoEvent(title) {
+      if (!title) {
+        return;
+      }
+      this.todos.push({ id: this.todoIdx++, title, completed: false });
+    }
+  }
+};
+</script>
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
