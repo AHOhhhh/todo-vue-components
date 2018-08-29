@@ -3,7 +3,7 @@
           <div class="view">
             <input class="toggle" type="checkbox" v-model="todo.completed" >
             <label @dblclick="editTodo" v-text="todo.title"></label>
-            <button class="destroy" @click="removeTodo(todo)"></button>
+            <button class="destroy" @click="removeTodo"></button>
           </div>
           <input class="edit" type="text" v-model="todo.title" @blur="cancelEdit" @keyup.enter="doneEdit">
   </li>
@@ -26,11 +26,16 @@ export default {
     },
     doneEdit() {
       this.editing = false;
-      this.$emit("updateTodoTitleEvent", this.todo.id, this.todo.title);
     },
     cancelEdit() {
+      if (!this.editing) {
+        return;
+      }
       this.editing = false;
       this.todo.title = this.beforeCache;
+    },
+    removeTodo() {
+      this.$emit("removeTodoEvent", this.todo);
     }
   }
 };

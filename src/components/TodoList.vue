@@ -3,7 +3,7 @@
       <input id="toggle-all" class="toggle-all" type="checkbox" v-model="allDone">
       <label for="toggle-all">Mark all as complete</label>
       <ul class="todo-list">
-        <Todo v-for="todo in filterTodos" :todo="todo" :key="todo.id" @updateTodoTitleEvent="updateTodoTitleEvent"></Todo>
+        <Todo v-for="todo in filterTodos" :todo="todo" :key="todo.id"  @removeTodoEvent="removeTodo"></Todo>
       </ul>
     </section>
 </template>
@@ -35,10 +35,8 @@ export default {
     }
   },
   methods: {
-    updateTodoTitleEvent(id,title){
-      console.log('todolist');
-      console.log(id,title);
-      this.$emit('updateTodoTitleEvent', id,title)
+    removeTodo(todo) {
+      this.$emit("removeTodoEvent", todo);
     }
   }
 };
