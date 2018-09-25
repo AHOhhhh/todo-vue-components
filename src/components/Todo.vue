@@ -3,12 +3,14 @@
           <div class="view">
             <input class="toggle" type="checkbox" v-model="todo.completed" >
             <label @dblclick="editTodo" v-text="todo.title"></label>
-            <button class="destroy" @click="removeTodo"></button>
+            <button class="destroy" @click="remove"></button>
           </div>
           <input class="edit" type="text" v-model="todo.title" @blur="cancelEdit" @keyup.enter="doneEdit">
   </li>
 </template>
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "Todo",
   data() {
@@ -34,9 +36,12 @@ export default {
       this.editing = false;
       this.todo.title = this.beforeCache;
     },
-    removeTodo() {
-      this.$emit("removeTodoEvent", this.todo);
-    }
+
+    remove() {
+      this.removeTodo(this.todo);
+    },
+
+    ...mapMutations(["removeTodo"])
   }
 };
 </script>

@@ -20,27 +20,19 @@
     </footer>
 </template>
 <script>
+import { mapState, mapGetters, mapMutations } from "vuex";
+
 import filters from "../assets/js/filters.js";
 export default {
   name: "Footer",
-  props: {
-    visibility: String,
-    todos: Array
-  },
   computed: {
-    remaining() {
-      return filters.active(this.todos).length;
-    }
+    ...mapState(["todos", "visibility"]),
+    ...mapGetters(["remaining"])
   },
   methods: {
-    changeType(type) {
-      this.$emit("changeVisibilityEvent", type);
-    },
+    ...mapMutations(["changeType", "removeCompleted"]),
     pluralize(count, word) {
       return word + (count > 1 ? "s" : "");
-    },
-    removeCompleted() {
-      this.$emit("clearCompletedEvent");
     }
   }
 };

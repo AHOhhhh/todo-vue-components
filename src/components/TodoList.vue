@@ -3,41 +3,32 @@
       <input id="toggle-all" class="toggle-all" type="checkbox" v-model="allDone">
       <label for="toggle-all">Mark all as complete</label>
       <ul class="todo-list">
-        <Todo v-for="todo in filterTodos" :todo="todo" :key="todo.id"  @removeTodoEvent="removeTodo"></Todo>
+        <Todo v-for="todo in getFilterTodos" :todo="todo" :key="todo.id"></Todo>
       </ul>
     </section>
 </template>
 <script>
-import filters from "../assets/js/filters.js";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import Todo from "./Todo";
 export default {
   name: "TodoList",
   components: {
     Todo
   },
-  props: {
-    todos: Array,
-    visibility: String
-  },
   computed: {
     allDone: {
       get() {
-        return this.todos.every(todo => todo.completed);
+        return this.getAllDone;
       },
-      set(completed) {
-        this.todos.forEach(todo => {
-          todo.completed = completed;
-        });
+      set(value) {
+        this.updateAllDone(value);
       }
     },
-    filterTodos() {
-      return filters[this.visibility](this.todos);
-    }
+    ...mapState(["todos", "visibility"]),
+    ...mapGetters(["getAllDone", "getFilterTodos"])
   },
   methods: {
-    removeTodo(todo) {
-      this.$emit("removeTodoEvent", todo);
-    }
+    ...mapMutations(["updateAllDone"])
   }
 };
 </script>
